@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMI Calculator – Calculate Loan EMI Online</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Use this free EMI Calculator to calculate your monthly loan EMI, total interest, and total payment for home loan, personal loan, car loan, and more." />
+  <meta name="keywords" content="EMI Calculator, Loan EMI Calculator, Home Loan EMI, Personal Loan EMI, Car Loan EMI, EMI Calculation" />
+  <meta name="author" content="EMI Calculator" />
+  
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="EMI Calculator – Calculate Loan EMI Online" />
+  <meta property="og:description" content="Calculate your monthly EMI instantly with our easy-to-use EMI Calculator. Supports home, car, and personal loans." />
+  <meta property="og:type" content="website" />
+  
+  <!-- Mobile & Browser Meta -->
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#007bff" />
+  <style>
+    body {
+      background: #f4f6f8;
+    }
+    .container-box {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .result {
+      background: #f1f7ff;
+      border-left: 5px solid #0d6efd;
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#">EMI Calculator</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#emiNavbar" aria-controls="emiNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="emiNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Calculator</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+  <div class="container my-4">
+    <h1>EMI Calculator</h1>
+
+    <div class="container-box">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Loan Amount</label>
+          <input type="number" id="loanAmount" class="form-control" placeholder="Enter loan amount">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Annual Interest Rate (%)</label>
+          <input type="number" id="interestRate" class="form-control" placeholder="Enter interest rate">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Loan Tenure (Years)</label>
+          <input type="number" id="loanTenure" class="form-control" placeholder="Enter tenure in years">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Tenure Type</label>
+          <input type="text" class="form-control" value="Years" disabled>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary w-100" onclick="calculateEMI()">Calculate EMI</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="result" class="result" style="display:none;"></div>
+
+    <div class="content">
+      <h2>What is EMI?</h2>
+      <p>
+        EMI stands for <strong>Equated Monthly Installment</strong>. It is the fixed amount you pay every month to repay a loan. 
+        An EMI includes both the principal amount and the interest component.
+      </p>
+
+      <h2>How EMI is Calculated</h2>
+      <p>
+        The EMI is calculated using the following formula:
+      </p>
+      <p><strong>EMI = [P × R × (1+R)^N] / [(1+R)^N − 1]</strong></p>
+      <ul>
+        <li><strong>P</strong> = Loan amount (Principal)</li>
+        <li><strong>R</strong> = Monthly interest rate (Annual rate / 12 / 100)</li>
+        <li><strong>N</strong> = Loan tenure in months</li>
+      </ul>
+
+      <h2>Benefits of Using an EMI Calculator</h2>
+      <ul>
+        <li>Helps you plan your monthly budget</li>
+        <li>Gives instant and accurate results</li>
+        <li>Allows comparison between different loan options</li>
+        <li>Saves time and avoids manual calculations</li>
+      </ul>
+
+      <h2>Types of Loans You Can Calculate EMI For</h2>
+      <ul>
+        <li>Home Loan</li>
+        <li>Personal Loan</li>
+        <li>Car Loan</li>
+        <li>Education Loan</li>
+        <li>Business Loan</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function calculateEMI() {
+      const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+      const annualRate = parseFloat(document.getElementById('interestRate').value);
+      const tenureYears = parseFloat(document.getElementById('loanTenure').value);
+
+      if (!loanAmount || !annualRate || !tenureYears) {
+        alert('Please enter all values');
+        return;
+      }
+
+      const monthlyRate = annualRate / 12 / 100;
+      const tenureMonths = tenureYears * 12;
+
+      const emi = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
+                  (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+
+      const totalPayment = emi * tenureMonths;
+      const totalInterest = totalPayment - loanAmount;
+
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = `
+        <h3>EMI Details</h3>
+        <p><strong>Monthly EMI:</strong> ₹${emi.toFixed(2)}</p>
+        <p><strong>Total Interest:</strong> ₹${totalInterest.toFixed(2)}</p>
+        <p><strong>Total Payment:</strong> ₹${totalPayment.toFixed(2)}</p>
+      `;
+    }
+  </script>
+  <footer style="background:#222;color:#ccc;margin-top:40px;">
+    <div style="max-width:900px;margin:auto;padding:20px 30px;text-align:center;">
+      <p style="margin:5px 0;">© 2026 EMI Calculator. All Rights Reserved.</p>
+      <p style="margin:5px 0;font-size:14px;">This calculator is for informational purposes only. Actual loan terms may vary.</p>
+    </div>
+  </footer>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
